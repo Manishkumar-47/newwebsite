@@ -1,0 +1,14 @@
+.env
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+backend/storage/uploads/*
+backend/storage/reports/*
+backend/storage/*.db
+backend/sample_pdfs/*.pdf
+node_modules/
+dist/
+.vercel/
+logs/

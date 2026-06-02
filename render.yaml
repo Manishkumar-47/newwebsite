@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: fact-check-agent-backend
+    env: python
+    plan: starter
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4.1
+      - key: TAVILY_API_KEY
+        sync: false
+      - key: SERPER_API_KEY
+        sync: false
+      - key: DATABASE_URL
+        value: sqlite:///./storage/factcheck.db
+      - key: CORS_ORIGINS
+        sync: false
