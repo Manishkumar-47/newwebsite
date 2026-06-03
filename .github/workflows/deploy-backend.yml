@@ -1,0 +1,33 @@
+name: Deploy Backend to Render
+
+on:
+  push:
+    branches: ['main']
+    paths:
+      - 'backend/**'
+      - '.github/workflows/deploy-backend.yml'
+  workflow_dispatch:
+
+env:
+  RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+  RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Trigger Render Deployment
+        if: env.RENDER_SERVICE_ID != ''
+        run: |
+          curl -X POST "https://api.render.com/deploy/${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}" \
+            -H "Content-Type: application/json"
+
+      - name: Alternative: Deploy to Railway
+        if: env.RENDER_SERVICE_ID == ''
+        run: |
+          echo "To deploy backend automatically:"
+          echo "1. Set RENDER_SERVICE_ID and RENDER_API_KEY secrets in GitHub"
+          echo "2. OR connect Railway/Fly.io directly to GitHub repo"
+          echo "3. See deployment guide in docs/"
